@@ -1,29 +1,45 @@
 name: CI Pipeline
 
-on: [push]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      # 1. Récupérer le code
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      # 2. Installer Python (VERSION CORRIGÉE)
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: 3.10
+          python-version: '3.11'
 
+      # 3. Installer dépendances
       - name: Install dependencies
         run: |
-          pip install flask flake8 pytest
+          pip install flask flake8 pytest pytest-cov
 
-      - name: Lint
+      # 4. Linter (doit échouer au début)
+      - name: Run Linter
         run: flake8 .
 
-      - name: Tests
-        run: pytest || true
+      # 5. Tests + Coverage (même si 0 test)
+      - name: Run tests with coverage
+        run: pytest --cov=. --cov-report=xml || true
 
+      # 6. SonarCloud Scan
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          args: >
+            -Dsonar.projectKey=TON_PROJECT_KEY
+            -Dsonar.organization=TON_ORG
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
