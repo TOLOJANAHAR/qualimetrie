@@ -1,5 +1,6 @@
 from main import calculate_final_price
 
+
 def test_business_price():
     data = {"base_price": 100, "class": "Business", "baggage": 0}
     assert calculate_final_price(data) == 300
