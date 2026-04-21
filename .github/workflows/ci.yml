@@ -31,7 +31,7 @@ jobs:
 
       # 5. Tests + Coverage (même si 0 test)
       - name: Run tests with coverage
-        run: pytest --cov=. --cov-report=xml || true
+        run: pytest --cov=main --cov-report=xml:coverage.xml
 
       # 6. SonarCloud Scan
       - name: SonarCloud Scan
@@ -40,6 +40,11 @@ jobs:
           args: >
             -Dsonar.projectKey=TOLOJANAHAR_qualimetrie
             -Dsonar.organization=tolojanahar
+            -Dsonar.sources=.
             -Dsonar.python.coverage.reportPaths=coverage.xml
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      
+      - name: Debug files
+        run: ls -la
