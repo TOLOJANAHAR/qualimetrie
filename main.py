@@ -57,8 +57,22 @@
 
 
 from flask import Flask, request, jsonify
+import os
+from dotenv import load_dotenv
+
+# 🔹 Charger les variables .env
+load_dotenv()
 
 app = Flask(__name__)
+
+# 🔹 Récupérer la clé API depuis .env
+API_KEY = os.getenv("API_KEY")
+
+
+# 🔹 Vérification clé API
+def check_api_key(req):
+    key = req.headers.get("x-api-key")
+    return key == API_KEY
 
 
 # 🔹 Validation des données
@@ -104,12 +118,15 @@ def compute_final_price(data):
 # 🔹 Route API
 @app.route('/api/flight-price', methods=['POST'])
 def calculate_price():
+    if not check_api_key(request):
+        return jsonify({"error": "Unauthorized"}), 401
+
     data = request.json
-    # Validation
+
     error = validate_data(data)
     if error:
         return jsonify({"error": error}), 400
-    # Calcul
+
     final_price = compute_final_price(data)
     return jsonify({"final_price": final_price})
 
