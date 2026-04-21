@@ -1,16 +1,20 @@
-from main import calculate_final_price
+from main import compute_final_price
 
+def test_business():
+    assert compute_final_price({
+        "base_price": 100,
+        "class": "Business",
+        "baggage": 0
+    }) == 300
 
-def test_business_price():
-    data = {"base_price": 100, "class": "Business", "baggage": 0}
-    assert calculate_final_price(data) == 300
+def test_baggage_25():
+    assert compute_final_price({
+        "base_price": 100,
+        "baggage": 25
+    }) == 150
 
-
-def test_baggage_25kg():
-    data = {"base_price": 100, "class": "Economy", "baggage": 25}
-    assert calculate_final_price(data) == 150
-
-
-def test_baggage_35kg():
-    data = {"base_price": 100, "class": "Economy", "baggage": 35}
-    assert calculate_final_price(data) == 200
+def test_baggage_35():
+    assert compute_final_price({
+        "base_price": 100,
+        "baggage": 35
+    }) == 200
