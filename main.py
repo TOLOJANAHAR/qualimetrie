@@ -71,7 +71,6 @@ def validate_data(data):
 
     if not isinstance(data["base_price"], (int, float)):
         return "base_price invalide"
-
     return None
 
 
@@ -86,13 +85,10 @@ def apply_class_price(base_price, flight_class):
 def apply_baggage_fee(price, baggage):
     if not isinstance(baggage, (int, float)):
         return price
-
     if baggage > 30:
         return price + 100
-
     if baggage > 20:
         return price + 50
-
     return price
 
 
@@ -102,7 +98,6 @@ def compute_final_price(data):
 
     price = apply_class_price(price, data.get("class"))
     price = apply_baggage_fee(price, data.get("baggage", 0))
-
     return price
 
 
@@ -110,15 +105,12 @@ def compute_final_price(data):
 @app.route('/api/flight-price', methods=['POST'])
 def calculate_price():
     data = request.json
-
     # Validation
     error = validate_data(data)
     if error:
         return jsonify({"error": error}), 400
-
     # Calcul
     final_price = compute_final_price(data)
-
     return jsonify({"final_price": final_price})
 
 
