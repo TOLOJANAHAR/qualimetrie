@@ -31,7 +31,7 @@ jobs:
 
       # 5. Tests + Coverage (même si 0 test)
       - name: Run tests with coverage
-        run: pytest --cov=main --cov-report=xml:coverage.xml
+        run: pytest -v --cov=. --cov-report=xml:coverage.xml
 
       # 6. SonarCloud Scan
       - name: SonarCloud Scan
@@ -47,4 +47,5 @@ jobs:
 
       
       - name: Debug files
-        run: ls -la
+        run: |
+          ls -R
