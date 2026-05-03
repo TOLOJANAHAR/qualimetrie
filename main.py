@@ -87,3 +87,29 @@ def validate_data(data):
     if not isinstance(data["base_price"], (int, float)):
         return "base_price invalide"
     return None
+
+# 🔹 Calcul prix classe
+def apply_class_price(base_price, flight_class):
+    if flight_class == "Business":
+        return base_price * 3
+    return base_price
+
+
+# 🔹 Calcul bagage
+def apply_baggage_fee(price, baggage):
+    if not isinstance(baggage, (int, float)):
+        return price
+    if baggage > 30:
+        return price + 100
+    if baggage > 20:
+        return price + 50
+    return price
+
+
+# 🔹 Fonction principale métier
+def compute_final_price(data):
+    price = data["base_price"]
+
+    price = apply_class_price(price, data.get("class"))
+    price = apply_baggage_fee(price, data.get("baggage", 0))
+    return price
