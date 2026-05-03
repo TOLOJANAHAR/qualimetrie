@@ -113,3 +113,22 @@ def compute_final_price(data):
     price = apply_class_price(price, data.get("class"))
     price = apply_baggage_fee(price, data.get("baggage", 0))
     return price
+
+# 🔹 Route API
+@app.route('/api/flight-price', methods=['POST'])
+def calculate_price():
+    if not check_api_key(request):
+        return jsonify({"error": "Unauthorized"}), 401
+
+    data = request.json
+
+    error = validate_data(data)
+    if error:
+        return jsonify({"error": error}), 400
+
+    final_price = compute_final_price(data)
+    return jsonify({"final_price": final_price})
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
