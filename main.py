@@ -1,13 +1,13 @@
-
-
 from flask import Flask, request, jsonify
 import os
+
 
 try:
     from dotenv import load_dotenv
     load_dotenv()
 except ModuleNotFoundError:
     pass  # en CI, on ignore
+
 
 app = Flask(__name__)
 
