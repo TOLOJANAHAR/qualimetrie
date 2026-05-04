@@ -23,7 +23,7 @@ jobs:
       # 3. Installer dépendances
       - name: Install dependencies
         run: |
-          pip install --only-binary=:all: flask flake8 pytest pytest-cov
+          pip install --only-binary=:all: flask==3.1.3 flake8==7.3.0 pytest==9.0.3 pytest-cov==7.1.0
 
       # 4. Linter (doit échouer au début)
       - name: Run Linter
@@ -51,4 +51,4 @@ jobs:
           ls -R
 
       - name: Install dependencies
-        run: pip install --only-binary=:all -r requirements.txt
+        run: pip install --only-binary=:all flask==3.1.3 flake8==7.3.0 pytest==9.0.3 pytest-cov==7.1.0
