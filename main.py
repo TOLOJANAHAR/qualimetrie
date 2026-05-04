@@ -88,6 +88,7 @@ def validate_data(data):
         return "base_price invalide"
     return None
 
+
 # 🔹 Calcul prix classe
 def apply_class_price(base_price, flight_class):
     if flight_class == "Business":
@@ -113,6 +114,7 @@ def compute_final_price(data):
     price = apply_class_price(price, data.get("class"))
     price = apply_baggage_fee(price, data.get("baggage", 0))
     return price
+
 
 # 🔹 Route API
 @app.route('/api/flight-price', methods=['POST'])
